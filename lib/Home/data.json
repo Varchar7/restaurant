@@ -1,0 +1,23 @@
+{
+  "appheader": "Find your test!",
+  "pins": [
+    "Recommend",
+    "Indian",
+    "Gujarati",
+    "Panjabi",
+    "Veg",
+    "Non-Veg",
+    "American",
+    "Chainese",
+    "Maxixan",
+    "Italian",
+    "Japanese"
+  ],
+  "foods": [
+    {
+      "name": "Pizza",
+
+      "quote": [{ "item": " Neapolitan Pizza", "rate": "5.2", "price": "20" }]
+    }
+  ]
+}
