@@ -44,3 +44,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# vscode://vscode.github-authentication/did-authenticate?windowid=1&code=14033c909b0a622eeaa4&state=5a92518b-e125-432f-b152-3680c065d915
