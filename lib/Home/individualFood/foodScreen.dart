@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:resturant/Database/initDB.dart';
 import '../mainData.dart';
 
 class IndividualFood extends StatefulWidget {
   final Quote food;
-  const IndividualFood({Key? key, required this.food}) : super(key: key);
+  final String name;
+  const IndividualFood({Key? key, required this.food, required this.name})
+      : super(key: key);
 
   @override
   State<IndividualFood> createState() => _IndividualFoodState();
@@ -40,7 +42,7 @@ class _IndividualFoodState extends State<IndividualFood> {
                       ),
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       child: Image.network(
-                        widget.food.link,
+                        widget.food.getLink(widget.name),
                         fit: BoxFit.cover,
                         height: 310,
                         width: MediaQuery.of(context).size.width,
@@ -154,7 +156,11 @@ class _IndividualFoodState extends State<IndividualFood> {
                     ),
                   ],
                 ),
-                iconField(like: '420', rate: '4.5', time: '20-22'),
+                iconField(
+                  like: '${widget.food.like}',
+                  rate: widget.food.rate,
+                  time: widget.food.duration,
+                ),
                 const Divider(
                   indent: 2,
                   thickness: 2,
@@ -228,7 +234,7 @@ class _IndividualFoodState extends State<IndividualFood> {
                                   Expanded(
                                     flex: 3,
                                     child: Text(
-                                      '${(double.parse(widget.food.price.substring(0, 4)) * item).toStringAsFixed(2)} \$',
+                                      '${double.parse(widget.food.price) * item} \$',
                                       style: const TextStyle(
                                         fontSize: 20,
                                         color: Colors.black87,
@@ -289,7 +295,21 @@ class _IndividualFoodState extends State<IndividualFood> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        /* if (e == 'Add to Cart') {
+                          RestaurantDB.insertRecord(
+                            Product(
+                              item: widget.food.item,
+                              duration: widget.food.duration,
+                              like: widget.food.like,
+                              price: widget.food.price,
+                              qty: item,
+                              rate: widget.food.rate,
+                            ),
+                          );
+                          RestaurantDB.getRecords();
+                        } */
+                      },
                       child: Text(
                         e,
                         style: const TextStyle(

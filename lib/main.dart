@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Home/home.dart';
+import 'CustomDrawer/buildDrawer.dart';
 
 void main(List<String> args) {
   runApp(const FoodApp());
@@ -12,7 +12,7 @@ class FoodApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: DrawerBuild(),
     );
   }
 }

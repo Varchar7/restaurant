@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:resturant/Database/initDB.dart';
 import '../Home/homeScreen/homeScreen.dart';
 import '../Shop/shop.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final VoidCallback openDrawer;
+
+  const Home({Key? key, required this.openDrawer}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -12,6 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   PageController pageController = PageController();
   int bottomIndex = 0;
+
   List<BottomSet> bottomSet = [
     BottomSet(
       label: 'Home',
@@ -27,22 +31,18 @@ class _HomeState extends State<Home> {
     ),
     BottomSet(label: 'Notify', icon: Icons.notifications),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        onPageChanged: (value) {
-          bottomIndex = value;
-          setState(() {});
-        },
-        children: const [
-          HomeScreen(),
-          ShopScreen(),
-          Scaffold(),
-          Scaffold(),
-        ],
-      ),
+      backgroundColor: Colors.transparent,
+      body: buildBody(),
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.all(
@@ -63,19 +63,6 @@ class _HomeState extends State<Home> {
             setState(() {});
           },
           selectedIndex: bottomIndex,
-
-          /* unselectedLabelStyle: TextStyle(
-            fontFamily: 'ubi',
-            color: Colors.black,
-          ),
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.black,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          selectedLabelStyle: TextStyle(
-            fontFamily: 'ubi',
-            color: Colors.black,
-          ), */
           destinations: bottomSet
               .map(
                 (e) => NavigationDestination(
@@ -88,6 +75,26 @@ class _HomeState extends State<Home> {
               .toList(),
         ),
       ),
+    );
+  }
+
+  Widget buildBody() {
+    return PageView(
+      controller: pageController,
+      onPageChanged: (value) {
+        bottomIndex = value;
+        setState(() {});
+      },
+      children: [
+        HomeScreen(
+          openDrawer: widget.openDrawer,
+        ),
+        ShopScreen(
+          openDrawer: widget.openDrawer,
+        ),
+        const Scaffold(),
+        const Scaffold(),
+      ],
     );
   }
 }
