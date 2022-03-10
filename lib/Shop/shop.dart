@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ShopScreen extends StatefulWidget {
-  const ShopScreen({Key? key}) : super(key: key);
+  final VoidCallback openDrawer;
+  const ShopScreen({Key? key, required this.openDrawer}) : super(key: key);
 
   @override
   State<ShopScreen> createState() => _ShopScreenState();
 }
 
 class _ShopScreenState extends State<ShopScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,94 +27,115 @@ class _ShopScreenState extends State<ShopScreen> {
             color: Colors.black,
           ),
         ),
+        leading: IconButton(
+          onPressed: widget.openDrawer,
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
       ),
-      backgroundColor: Color.fromARGB(255, 255, 243, 207),
+      backgroundColor: Colors.transparent,
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              'https://source.unsplash.com/1280x720/?pizza'),
-                          fit: BoxFit.cover,
-                          opacity: 0.25,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const CircleAvatar(
-                              radius: 65,
-                              backgroundImage: NetworkImage(
-                                  'https://source.unsplash.com/1280x720/?pizza'),
+          Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: const DecorationImage(
+                              image: NetworkImage(
+                                'https://source.unsplash.com/1280x720/?pizza',
+                              ),
+                              fit: BoxFit.cover,
+                              opacity: 0.25,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                textWidget(
-                                  text: 'Item name',
-                                  textColor: Colors.black,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
+                                const CircleAvatar(
+                                  radius: 65,
+                                  backgroundImage: NetworkImage(
+                                    'https://source.unsplash.com/1280x720/?pizza',
+                                  ),
                                 ),
-                                textWidget(
-                                  text: 'Item',
-                                  textColor: Colors.black,
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textWidget(
-                                  text: 'Quantity',
-                                  textColor: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textWidget(
-                                  text: 'Total Price',
-                                  textColor: Colors.black,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    textWidget(
+                                      text: 'Item name',
+                                      textColor: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textWidget(
+                                      text: 'Item',
+                                      textColor: Colors.black,
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textWidget(
+                                      text: 'Quantity',
+                                      textColor: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textWidget(
+                                      text: 'Total Price',
+                                      textColor: Colors.black,
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.red,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.white,
+                        CircleAvatar(
+                          backgroundColor: Colors.red,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.amber[200],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+              color: Colors.amber[100],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
               ),
             ),
             height: 125,
@@ -117,7 +144,7 @@ class _ShopScreenState extends State<ShopScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Table(
                     children: [
                       TableRow(
@@ -150,8 +177,11 @@ class _ShopScreenState extends State<ShopScreen> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
                     primary: Colors.amber,
-                    fixedSize: Size(
+                    fixedSize: const Size(
                       200,
                       45,
                     ),

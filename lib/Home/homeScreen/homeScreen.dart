@@ -1,12 +1,14 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import '../individualFood/foodScreen.dart';
 import '../mainData.dart';
 import 'recentList.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final VoidCallback openDrawer;
+  const HomeScreen({
+    Key? key,
+    required this.openDrawer,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,140 +25,173 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: appData == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverAppBar(
-                  flexibleSpace: const FlexibleSpaceBar(
-                    title: Text(
-                      'Food App',
-                      style: TextStyle(
-                        fontFamily: 'ubi',
-                        color: Colors.black,
-                      ),
+    return appData == null
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                flexibleSpace: const FlexibleSpaceBar(
+                  title: Text(
+                    'Food App',
+                    style: TextStyle(
+                      fontFamily: 'ubi',
+                      color: Colors.black,
                     ),
                   ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.shopping_bag,
-                        color: Colors.black,
-                      ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.shopping_bag,
+                      color: Colors.black,
                     ),
-                  ],
-                  backgroundColor: Colors.transparent,
-                  leading: const Icon(
+                  ),
+                ],
+                backgroundColor: Colors.transparent,
+                leading: IconButton(
+                  onPressed: widget.openDrawer,
+                  icon: const Icon(
                     Icons.menu,
                     color: Colors.black,
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
-                        padding: const EdgeInsets.all(7),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              appData!.appheader,
-                              style: const TextStyle(
-                                fontFamily: 'ubi',
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                              ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: const EdgeInsets.all(7),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            appData!.appheader,
+                            style: const TextStyle(
+                              fontFamily: 'ubi',
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
                             ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                prefixIcon: const Icon(
-                                  Icons.search,
-                                ),
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Card(
-                                    color: Colors.amber[200],
-                                    child: const Icon(
-                                      Icons.filter_list_rounded,
-                                      color: Colors.black,
-                                    ),
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.search,
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Card(
+                                  color: Colors.amber[200],
+                                  child: const Icon(
+                                    Icons.filter_list_rounded,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 50,
-                              child: ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: appData!.pins.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Chip(
-                                      label: Text(
-                                        appData!.pins[index],
-                                        style: const TextStyle(
-                                          fontFamily: 'ubi',
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          ),
+                          SizedBox(
+                            height: 50,
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: appData!.pins.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Chip(
+                                    label: Text(
+                                      appData!.pins[index],
+                                      style: const TextStyle(
+                                        fontFamily: 'ubi',
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
+                                  ),
+                                );
+                              },
                             ),
-                            SizedBox(
-                              height: 275,
-                              child: RecentList(
-                                  link: appData!.pins.map((e) {
-                                return 'https://source.unsplash.com/1444x1280/?${e.toLowerCase()}-food';
-                              }).toList()),
+                          ),
+                          SizedBox(
+                            height: 275,
+                            child: RecentList(
+                                link: appData!.pins.map((e) {
+                              return 'https://source.unsplash.com/1444x1280/?${e.toLowerCase()}-food';
+                            }).toList()),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, id) {
+                    return SizedBox(
+                      height: 325,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  appData!.foods[id].name,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'ubi',
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'View all',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: 'ubi',
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: appData!.foods[id].quote.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FoodItem(
+                                    food: appData!.foods[id],
+                                    index: index,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  childCount: appData!.foods.length,
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, id) {
-                      return SizedBox(
-                        height: 275,
-                        child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: appData!.foods[id].quote.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: FoodItem(
-                                food: appData!.foods[id],
-                                index: index,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    childCount: appData!.foods.length,
-                  ),
-                ),
-              ],
-            ),
-    );
+              ),
+            ],
+          );
   }
 }
 
@@ -180,6 +215,7 @@ class _FoodItemState extends State<FoodItem> {
             builder: ((context) {
               return IndividualFood(
                 food: widget.food.quote[widget.index],
+                name: widget.food.name,
               );
             }),
           ),
@@ -189,7 +225,7 @@ class _FoodItemState extends State<FoodItem> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              widget.food.quote[widget.index].link,
+              widget.food.quote[widget.index].getLink(widget.food.name),
             ),
             fit: BoxFit.cover,
             filterQuality: FilterQuality.low,
@@ -212,7 +248,8 @@ class _FoodItemState extends State<FoodItem> {
                     child: Hero(
                       tag: widget.food.quote[widget.index].item,
                       child: FoodImage(
-                        link: widget.food.quote[widget.index].link,
+                        link: widget.food.quote[widget.index]
+                            .getLink(widget.food.name),
                       ),
                     ),
                   ),
@@ -225,7 +262,7 @@ class _FoodItemState extends State<FoodItem> {
                         color: Colors.amber,
                       ),
                       label: Text(
-                        widget.food.quote[widget.index].rate,
+                        '${widget.food.quote[widget.index].rate}',
                         style: const TextStyle(
                           fontFamily: 'ubi',
                           fontWeight: FontWeight.bold,
@@ -253,7 +290,7 @@ class _FoodItemState extends State<FoodItem> {
                 ),
               ),
               Text(
-                widget.food.quote[widget.index].price,
+                '${widget.food.quote[widget.index].price}',
                 style: const TextStyle(
                   fontFamily: 'ubi',
                   fontSize: 20,

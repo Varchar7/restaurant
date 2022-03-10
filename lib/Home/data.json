@@ -1,5 +1,10 @@
 {
   "appheader": "Find your test!",
+  "buttons": {
+    "viewall": "View all",
+    "cart": "Add to Cart",
+    "order": "Order Now"
+  },
   "pins": [
     "Recommend",
     "Indian",
@@ -17,7 +22,15 @@
     {
       "name": "Pizza",
 
-      "quote": [{ "item": " Neapolitan Pizza", "rate": "5.2", "price": "20" }]
+      "quote": [
+        {
+          "item": "Neapolitan Pizza",
+          "rate": 6.5,
+          "price": 2.5,
+          "like": 125,
+          "duration": "${Random().nextInt(60)} Minutes"
+        }
+      ]
     }
   ]
 }
